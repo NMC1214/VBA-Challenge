@@ -1,0 +1,45 @@
+Sub VBA_Homework()
+    'copy column a to column i
+    Range("a:a").Copy Range("I:I")
+      
+    'remove duplicates from column i
+    Columns(9).RemoveDuplicates Columns:=Array(1)
+    
+    'insert headers
+    Range("I1").Value = "Ticker"
+    Range("J1").Value = "Yearly Change"
+    Range("K1").Value = "Percent Change"
+    Range("L1").Value = "Total Stock Volume"
+
+    'loop for each of the ticker ids
+    For i = 2 To 3
+        'declare variable for ticker IDs and where they are located in worksheet
+        Dim IDticker As String
+        IDticker = Cells(i, 9).Value
+        
+        'loop applied to all market data to return values for each ticker ID
+        For j = 2 To 285
+            'delare variable for tickers and where they are located in worksheet
+            Dim ticker As String
+            ticker = Cells(j, 1).Value
+            
+            'if statement to determine what done with data if the ticker ID is located in data
+            If IDticker = ticker Then
+                'sum open prices
+                Dim totalopen As Double
+                oprice = Cells(j, 3).Value
+                totalopen = totalopen + oprice
+                Cells(i, 10).Value = totalopen
+                
+            End If
+            
+        Next j
+        
+        'reset total open price for next ticker id
+            totalopen = 0
+    Next i
+
+     git config --global user.email "nclotus11@gmail.com"
+     git config --global user.name "Nicole Cruz"    
+    
+End Sub
