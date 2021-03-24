@@ -29,17 +29,54 @@ Sub VBA_Homework()
                 Dim totalopen As Double
                 oprice = Cells(j, 3).Value
                 totalopen = totalopen + oprice
-                Cells(i, 10).Value = totalopen
                 
+                'count number of cells containing ticker
+                Dim open1 As Double
+                open1 = open1 + WorksheetFunction.CountIf(Cells(j, 1), IDticker)
+                
+                'average opening price
+                Dim avopen As Double
+                avopen = totalopen / open1
+                
+                'sum close prices
+                Dim totalclose As Double
+                tprice = Cells(j, 6).Value
+                totalclose = totalclose + tprice
+                
+                'average close price
+                Dim avclose As Double
+                avclose = totalclose / open1
+                
+                'yearly change = avopen - avclose
+                Dim yrchng As Double
+                yrchng = avclose - avopen
+                
+                'average % change
+                Dim pctchng As Double
+                pctchng = yrchng / avopen
+                
+                'total stock volume
+                Dim stock As Double
+                Dim vol As Double
+                vol = Cells(j, 7)
+                stock = stock + vol
+            
             End If
             
         Next j
         
-        'reset total open price for next ticker id
+        'reset totals for next ticker id
             totalopen = 0
+            open1 = 0
+            avopen = 0
+            totalclose = 0
+            avclose = 0
+            yrchng = 0
+            pctchng = 0
+            stock = 0
+              
+                 
     Next i
-
-     git config --global user.email "nclotus11@gmail.com"
-     git config --global user.name "Nicole Cruz"    
+        
     
 End Sub
