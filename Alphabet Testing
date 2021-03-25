@@ -10,15 +10,19 @@ Sub VBA_Homework()
     Range("J1").Value = "Yearly Change"
     Range("K1").Value = "Percent Change"
     Range("L1").Value = "Total Stock Volume"
+    
+    'identify the last row for loop
+    lastrow1 = Cells(Rows.Count, 1).End(xlUp).Row
+    lastrow2 = Cells(Rows.Count, 9).End(xlUp).Row
 
     'loop for each of the ticker ids
-    For i = 2 To 3
+    For i = 2 To lastrow2
         'declare variable for ticker IDs and where they are located in worksheet
         Dim IDticker As String
         IDticker = Cells(i, 9).Value
         
         'loop applied to all market data to return values for each ticker ID
-        For j = 2 To 285
+        For j = 2 To lastrow1
             'delare variable for tickers and where they are located in worksheet
             Dim ticker As String
             ticker = Cells(j, 1).Value
@@ -63,8 +67,21 @@ Sub VBA_Homework()
             
             End If
             
+            
         Next j
         
+        'insert values for yearly change, % change, and stock volume
+        Cells(i, 10).Value = yrchng
+        Cells(i, 11).Value = pctchng
+        Cells(i, 12).Value = stock
+        
+        'conditional formatting to change color for yearly change if positive or negative
+        If yrchng >= 0 Then
+            Cells(i, 10).Interior.ColorIndex = 4
+        Else
+            Cells(i, 10).Interior.ColorIndex = 3
+        End If
+                
         'reset totals for next ticker id
             totalopen = 0
             open1 = 0
@@ -74,9 +91,12 @@ Sub VBA_Homework()
             yrchng = 0
             pctchng = 0
             stock = 0
-              
-                 
+            
+        'format to % from integer
+        Cells(i, 11).NumberFormat = "0.00%"
+        Cells(i, 10).NumberFormat = "0.00"
+                              
     Next i
-        
+             
     
 End Sub
